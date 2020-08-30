@@ -14,7 +14,7 @@ void AWebScrapper::StartScrape()
 	HRESULT hr = URLDownloadToFile(NULL, webAddress, szFileName, 0, NULL);
 	if (hr == S_OK)
 	{
-		std::cout << "Success!\n";
+		std::cout << "Downloaded: " << webAddress << '\n';
 		// Open the file and print it to the console window
 		// Since the file was just written, it should still be in cache somewhere.
 		ARecipeParser RecipeParser;
