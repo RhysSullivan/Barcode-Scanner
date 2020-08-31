@@ -4,6 +4,7 @@
 #include <iostream>	
 #include <fstream>
 
+#include "HTMLUtils.h"
 #include "RecipeParser.h"
 
 
