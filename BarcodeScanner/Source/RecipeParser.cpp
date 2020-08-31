@@ -5,7 +5,7 @@
 #include <iomanip>
 #include "HTMLUtils.h"
 
-void ARecipeParser::ParseHTMLFile(char* FileName)
+void ARecipeParser::ParseHTMLFile(const std::string& FileName)
 {
 	std::ifstream fin(FileName);
 	

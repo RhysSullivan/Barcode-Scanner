@@ -8,24 +8,37 @@
 #include "RecipeParser.h"
 
 
+#define ONLINE 0
+
 //https://www.bigoven.com/recipes/search/page/39802
 void AWebScrapper::StartScrape()
 {
+	std::string WebAddress= "https://www.bigoven.com/recipe/pumpkin-loaf-with-cream-cheese-icing/167340";
+	std::string OutFileName = "HTMLSource/test.html";
+	DownloadSite(OutFileName, WebAddress);
+	
+	
+	ARecipeParser RecipeParser;
+	RecipeParser.ParseHTMLFile(OutFileName.c_str());
+}
 
-	char webAddress[256] = "https://www.bigoven.com/recipe/pumpkin-loaf-with-cream-cheese-icing/167340";
-	char szFileName[80] = "HTMLSource/test.html";
-
-	HRESULT hr = URLDownloadToFile(NULL, webAddress, szFileName, 0, NULL);
+void AWebScrapper::DownloadSite(std::string& OutFileName, const std::string& URL)
+{
+#if ONLINE
+	HRESULT hr = URLDownloadToFile(NULL, URL.c_str(), OutFileName.c_str(), 0, NULL);
 	if (hr == S_OK)
 	{
-		std::cout << "Downloaded: " << webAddress << '\n';
+		std::cout << "Downloaded: " << URL << '\n';
 		// Open the file and print it to the console window
 		// Since the file was just written, it should still be in cache somewhere.
-		ARecipeParser RecipeParser;
-		RecipeParser.ParseHTMLFile(szFileName);
 	}
-	else 
+	else
 	{
 		std::cout << "Operation failed with error code: " << hr << "\n";
 	}
+	return;
+#else
+	std::cout << "Downloaded: " << URL << '\n';
+#endif
+	return;
 }
