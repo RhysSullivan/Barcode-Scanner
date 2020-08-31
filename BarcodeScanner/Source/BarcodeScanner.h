@@ -3,6 +3,6 @@
 class ABarcodeScanner
 {
 public:
-	bool ScanBarcode(const std::string& Barcode);
+	bool ScanBarcode(const std::string& ItemBarcode);
 };
 

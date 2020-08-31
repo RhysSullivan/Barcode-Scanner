@@ -4,12 +4,12 @@
 #include "BarcodeScanner.h"
 #include "WebScrapper.h"
 #include "HTMLUtils.h"
-bool ABarcodeScanner::ScanBarcode(const std::string& Barcode)
+bool ABarcodeScanner::ScanBarcode(const std::string& ItemBarcode)
 {
 	std::string UPCSiteURL = "https://www.upcdatabase.com/item/";
 	std::string OutFile = "HTMLSource/UPCSource/";
-	UPCSiteURL += Barcode;
-	OutFile += Barcode;
+	UPCSiteURL += ItemBarcode;
+	OutFile += ItemBarcode;
 	OutFile += ".html";
 
 
@@ -19,17 +19,57 @@ bool ABarcodeScanner::ScanBarcode(const std::string& Barcode)
 	std::ifstream fin(OutFile);
 	std::string str((std::istreambuf_iterator<char>(fin)), std::istreambuf_iterator<char>());
 
-	std::string OutName;
-	const std::string NameStart = "tr><td>Description</td><td></td><td>";
-	const std::string NameEnd = "</td></tr>";
-	HTMLUtils::ExtractTextFromFormatting(str, OutName, NameStart, NameEnd);
 
+	/*
+	* Official Name
+	*/
+	std::string ItemOfficialName;
+	const std::string OfficialNameStart = "tr><td>Description</td><td></td><td>";
+	const std::string OfficialNameEnd = "</td></tr>";
+	HTMLUtils::ExtractTextFromFormatting(str, ItemOfficialName, OfficialNameStart, OfficialNameEnd);
 
-	std::string OutWeight;
+	/*
+	* Weight
+	*/
+	std::string ItemWeight;
 	const std::string WeightStart = "<tr><td>Size/Weight</td><td></td><td>";
 	const std::string WeightEnd = "</td></tr>";
-	HTMLUtils::ExtractTextFromFormatting(str, OutWeight, WeightStart, WeightEnd);
+	HTMLUtils::ExtractTextFromFormatting(str, ItemWeight, WeightStart, WeightEnd);
 
-	std::cout << OutName << "\t\t\t\t\t" << OutWeight;
-    return false;
+	/*
+	* Common Name
+	*/
+	std::string ItemCommonName;
+	std::string CommonNameLine;
+	std::ifstream CommonNameFile("EXAMPLE/ALLFOOD.txt");
+	while (std::getline(CommonNameFile, CommonNameLine))
+	{
+		if (ItemOfficialName.find(CommonNameLine) != std::string::npos)
+		{
+			ItemCommonName = CommonNameLine;
+		}
+	}
+	/*
+		#Barcode#
+		01235137
+		#Item Official Name#
+		Barilla Protein Plus Angel Hair Pasta 14.5 Ounce - 2 Pack
+		#Item Common Name#
+		Pasta
+		#Average Expiration date#
+		5 days
+		#Quantity#
+		2
+	*/
+	std::cout << "#Barcode\n";
+	std::cout << ItemBarcode << std::endl;
+	std::cout << "#Item Official Name\n";
+	std::cout << ItemOfficialName << std::endl;;
+	std::cout << "#Item Common Name\n";
+	std::cout << ItemCommonName << std::endl;;
+	std::cout << "#Average Expiration Date\n";
+	std::cout << "N/A\n";
+	std::cout << "#Quantity\n";
+	std::cout << "N/A\n";
+	return false;
 }
