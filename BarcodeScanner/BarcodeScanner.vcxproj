@@ -19,11 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\BarcodeScanner.h" />
     <ClInclude Include="Source\HTMLUtils.h" />
     <ClInclude Include="Source\RecipeParser.h" />
     <ClInclude Include="Source\WebScrapper.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\BarcodeScanner.cpp" />
     <ClCompile Include="Source\HTMLUtils.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\RecipeParser.cpp" />

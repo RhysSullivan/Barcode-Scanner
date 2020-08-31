@@ -1,5 +1,56 @@
 #include "HTMLUtils.h"
 
+// these two are so similiar, consider collapsing contents into private method
+bool HTMLUtils::ExtractTextFromFormatting(const std::string& Text, std::string& Output, const std::string& StartStr, const std::string& EndStr)
+{
+	uint32_t SectionStart = static_cast<uint32_t>(Text.find(StartStr) + StartStr.size());
+	uint32_t SectionEnd = static_cast<uint32_t>(Text.find(EndStr, SectionStart));
+
+	if (SectionStart == std::string::npos || SectionEnd == std::string::npos)
+	{
+		return false;
+	}
+
+	std::string TextSection = Text.substr(SectionStart, SectionEnd - SectionStart);
+
+	uint32_t OpenBrackets = 0;
+	uint32_t NumberOfContinuousSpaces = 0;
+	bool bStartWritingCharacters = false;
+	uint32_t SequentialSpaces = 0;
+	for (uint32_t i = 0; i < static_cast<uint32_t>(TextSection.size()); i++)
+	{
+		char CurrentChar = TextSection[i];
+		if (CurrentChar == '<')
+		{
+			OpenBrackets++;
+		}
+		else if (CurrentChar == '>')
+		{
+			OpenBrackets--;
+		}
+		else if (OpenBrackets == 0)
+		{
+			if ((CurrentChar > 31 && CurrentChar < 125))
+			{
+				if (CurrentChar == ' ')
+				{
+					++SequentialSpaces;
+				}
+				else
+				{
+					SequentialSpaces = 0;
+					bStartWritingCharacters = true;
+				}
+
+				if (SequentialSpaces < 2 && bStartWritingCharacters)
+				{
+					Output += CurrentChar;
+				}
+			}
+		}
+	}
+	return true;
+}
 
 bool HTMLUtils::ExtractTextFromFormatting(const std::string& Text, std::string& Output, const std::string& StartStr, const std::string& EndStr, uint32_t& Offset)
 {
