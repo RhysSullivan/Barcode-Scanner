@@ -3,6 +3,7 @@
 class ARecipeParser
 {
 public:
-	void ParseHTMLFile(const std::string& FileName);
+	void ParseRecipeListHTMLPage(const std::string& FileName);
+	void ParseRecipeHTMLFile(const std::string& FileName);
 };
 

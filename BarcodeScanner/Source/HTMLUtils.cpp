@@ -1,6 +1,6 @@
 #include "HTMLUtils.h"
-
-// these two are so similiar, consider collapsing contents into private method
+#include <fstream>
+// these two are so similar, consider collapsing contents into private method
 bool HTMLUtils::ExtractTextFromFormatting(const std::string& Text, std::string& Output, const std::string& StartStr, const std::string& EndStr)
 {
 	uint32_t SectionStart = static_cast<uint32_t>(Text.find(StartStr) + StartStr.size());
@@ -110,4 +110,18 @@ void HTMLUtils::ExtractTextKeepFormatting(std::string& InSection, std::string& O
 	uint32_t SectionStartIndex = static_cast<uint32_t>(InSection.find(SectionStart));
 	uint32_t SectionEndIndex = static_cast<uint32_t>(InSection.find(SectionEnd, SectionStartIndex));
 	OutSection = InSection.substr(SectionStartIndex, SectionEndIndex - SectionStartIndex + SectionEnd.size());
+}
+
+void HTMLUtils::ExtractTextKeepFormatting(std::string& InSection, std::string& OutSection, const std::string& SectionStart, const std::string& SectionEnd, uint32_t& Offset)
+{
+	uint32_t SectionStartIndex = static_cast<uint32_t>(InSection.find(SectionStart, Offset)+SectionStart.size());
+	uint32_t SectionEndIndex = static_cast<uint32_t>(InSection.find(SectionEnd, SectionStartIndex));
+	OutSection = InSection.substr(SectionStartIndex, SectionEndIndex - SectionStartIndex);
+	Offset = SectionEndIndex;
+}
+
+void HTMLUtils::ReadDownloadedFileIntoString(std::string& OutString, const std::string& FileName)
+{
+	std::ifstream fin(FileName);
+	OutString = std::string((std::istreambuf_iterator<char>(fin)), std::istreambuf_iterator<char>());
 }

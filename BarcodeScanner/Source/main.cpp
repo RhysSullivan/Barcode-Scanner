@@ -11,8 +11,7 @@ int main()
 
 	std::cout << "==============================================\n";
 	std::string Barcode = "076808516135";
-	
 
 	ABarcodeScanner BarcodeScanner;
-	BarcodeScanner.ScanBarcode(Barcode);
+	//BarcodeScanner.ScanBarcode(Barcode);
 }

@@ -27,6 +27,9 @@
     <ClInclude Include="Source\BarcodeScanner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Item.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
@@ -42,6 +45,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\BarcodeScanner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Item.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

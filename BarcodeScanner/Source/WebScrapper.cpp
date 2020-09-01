@@ -8,18 +8,28 @@
 #include "RecipeParser.h"
 
 
-#define ONLINE 0
+#define ONLINE 1
 
 //https://www.bigoven.com/recipes/search/page/39802
 void AWebScrapper::StartScrape()
 {
-	std::string WebAddress= "https://www.bigoven.com/recipe/pumpkin-loaf-with-cream-cheese-icing/167340";
-	std::string OutFileName = "HTMLSource/test.html";
-	DownloadSite(OutFileName, WebAddress);
+	std::string BigOvenSearchPage = "https://www.bigoven.com/recipes/search/page/";
+	std::string PageOutput = "HTMLSource/RecipePages/";
+	uint32_t EndPage = 2;//39842
+
+	for (uint32_t PageIndex = 1; PageIndex < EndPage; PageIndex++)
+	{
+		std::string PageAddress = BigOvenSearchPage + std::to_string(PageIndex);
+		std::string OutPageFileName = PageOutput + std::to_string(PageIndex) + ".html";
+		DownloadSite(OutPageFileName, PageAddress);		
+
+		ARecipeParser RecipeParser;
+		RecipeParser.ParseRecipeListHTMLPage(OutPageFileName);
+	}
 	
 	
-	ARecipeParser RecipeParser;
-	RecipeParser.ParseHTMLFile(OutFileName.c_str());
+	//ARecipeParser RecipeParser;
+	//RecipeParser.ParseHTMLFile(OutFileName.c_str());
 }
 
 void AWebScrapper::DownloadSite(std::string& OutFileName, const std::string& URL)
@@ -38,7 +48,7 @@ void AWebScrapper::DownloadSite(std::string& OutFileName, const std::string& URL
 	}
 	return;
 #else
-	std::cout << "Downloaded: " << URL << '\n';
+	//std::cout << "Downloaded: " << URL << '\n';
 #endif
 	return;
 }

@@ -3,9 +3,43 @@
 #include <iostream>
 #include <cassert>
 #include <iomanip>
-#include "HTMLUtils.h"
 
-void ARecipeParser::ParseHTMLFile(const std::string& FileName)
+#include "HTMLUtils.h"
+#include "WebScrapper.h"
+
+void ARecipeParser::ParseRecipeListHTMLPage(const std::string& FileName)
+{
+	std::string DownloadedFileStr;
+	HTMLUtils::ReadDownloadedFileIntoString(DownloadedFileStr, FileName);
+	
+
+	const std::string RecipeURLStart = "data-url=\"";
+	const std::string RecipeURLEnd = "\">";
+
+	uint32_t Offset = 0;
+	uint32_t NumRecipesFound = 0;
+	while (DownloadedFileStr.find(RecipeURLStart, Offset) != std::string::npos)
+	{
+		std::string OutRecipeURL;
+		HTMLUtils::ExtractTextKeepFormatting(DownloadedFileStr, OutRecipeURL, RecipeURLStart, RecipeURLEnd, Offset);
+		const std::string RecipeNameStart = "https://www.bigoven.com/recipe/";
+		if (OutRecipeURL.find(RecipeNameStart) != std::string::npos)
+		{
+			uint32_t StartLoc = OutRecipeURL.find(RecipeNameStart) + RecipeNameStart.size();
+			uint32_t EndLoc = OutRecipeURL.find('/', StartLoc);
+			std::string RecipeName = OutRecipeURL.substr(StartLoc, EndLoc - StartLoc);
+
+			std::string OutRecipeFileName = "HTMLSource/Recipes/";
+			OutRecipeFileName += RecipeName + ".html";
+			AWebScrapper WebScrapper;
+			WebScrapper.DownloadSite(OutRecipeFileName, OutRecipeURL);
+
+			ParseRecipeHTMLFile(OutRecipeFileName);
+		}
+	}
+}
+
+void ARecipeParser::ParseRecipeHTMLFile(const std::string& FileName)
 {
 	std::ifstream fin(FileName);
 	
@@ -69,4 +103,5 @@ void ARecipeParser::ParseHTMLFile(const std::string& FileName)
 			std::cout << std::left << IngAmount  << std::setw(40) << std::right << IngName  << '\n';
 		}
 	}
+	std::cout << "\n\n\n";
 }
