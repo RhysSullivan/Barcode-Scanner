@@ -8,7 +8,7 @@
 #include "RecipeParser.h"
 
 
-#define ONLINE 1
+#define ONLINE 0
 
 //https://www.bigoven.com/recipes/search/page/39802
 void AWebScrapper::StartScrape()
@@ -48,7 +48,7 @@ void AWebScrapper::DownloadSite(std::string& OutFileName, const std::string& URL
 	}
 	return;
 #else
-	//std::cout << "Downloaded: " << URL << '\n';
+	std::cout << "Downloaded: " << URL << '\n';
 #endif
 	return;
 }

@@ -88,20 +88,16 @@ void ARecipeParser::ParseRecipeHTMLFile(const std::string& FileName)
 	const std::string IngAmountEndStr = "</span>";
 	const std::string IngNameStartStr = "<span class=\"name\">";
 	const std::string IngNameEndStr = "</span>";
-
 	uint32_t Offset = 0;
 	while (IngredientsSection.find(IngAmountStartStr, Offset) != std::string::npos)
 	{
 		std::string IngAmount;
-		HTMLUtils::ExtractTextFromFormatting(IngredientsSection, IngAmount, IngAmountStartStr, IngAmountEndStr, Offset);
+		assert(HTMLUtils::ExtractTextFromFormatting(IngredientsSection, IngAmount, IngAmountStartStr, IngAmountEndStr, Offset));
 
 		std::string IngName;
 		HTMLUtils::ExtractTextFromFormatting(IngredientsSection, IngName, IngNameStartStr, IngNameEndStr, Offset);
 
-		if (!IngAmount.empty() && !IngName.empty())
-		{
-			std::cout << std::left << IngAmount  << std::setw(40) << std::right << IngName  << '\n';
-		}
+		std::cout << std::left << IngAmount  << std::setw(40) << std::right << IngName  << '\n';
 	}
 	std::cout << "\n\n\n";
 }

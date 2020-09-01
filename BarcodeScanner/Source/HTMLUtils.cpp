@@ -3,6 +3,10 @@
 // these two are so similar, consider collapsing contents into private method
 bool HTMLUtils::ExtractTextFromFormatting(const std::string& Text, std::string& Output, const std::string& StartStr, const std::string& EndStr)
 {
+	if (Text.empty())
+	{
+		return false;
+	}
 	uint32_t SectionStart = static_cast<uint32_t>(Text.find(StartStr) + StartStr.size());
 	uint32_t SectionEnd = static_cast<uint32_t>(Text.find(EndStr, SectionStart));
 
@@ -54,10 +58,14 @@ bool HTMLUtils::ExtractTextFromFormatting(const std::string& Text, std::string& 
 
 bool HTMLUtils::ExtractTextFromFormatting(const std::string& Text, std::string& Output, const std::string& StartStr, const std::string& EndStr, uint32_t& Offset)
 {
+	if (Text.empty())
+	{
+		return false; // TODO: Throw error
+	}
 	uint32_t SectionStart = static_cast<uint32_t>(Text.find(StartStr, Offset));
 	uint32_t SectionEnd = static_cast<uint32_t>(Text.find(EndStr, SectionStart));
 
-	if (SectionStart == std::string::npos || SectionEnd == std::string::npos)
+	if ((SectionStart == std::string::npos || SectionEnd == std::string::npos))
 	{
 		return false;
 	}

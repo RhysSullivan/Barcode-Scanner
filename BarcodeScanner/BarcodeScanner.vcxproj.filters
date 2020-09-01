@@ -30,6 +30,12 @@
     <ClInclude Include="Source\Item.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Recipe.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Components\IngredientsComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
@@ -48,6 +54,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Item.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Recipe.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

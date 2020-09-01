@@ -20,6 +20,11 @@ bool ABarcodeScanner::ScanBarcode(const std::string& ItemBarcode)
 	std::ifstream fin(OutFile);
 	std::string str((std::istreambuf_iterator<char>(fin)), std::istreambuf_iterator<char>());
 
+	if (str.find("Item Not Found") != std::string::npos)
+	{
+		return false;
+	}
+
 
 	/*
 	* Official Name
@@ -50,6 +55,18 @@ bool ABarcodeScanner::ScanBarcode(const std::string& ItemBarcode)
 			ItemCommonName = CommonNameLine;
 		}
 	}
+
+
+	std::cout << "#Barcode\n";
+	std::cout << ItemBarcode << std::endl;
+	std::cout << "#Item Official Name\n";
+	std::cout << ItemOfficialName << std::endl;;
+	std::cout << "#Item Common Name\n";
+	std::cout << ItemCommonName << std::endl;;
+	std::cout << "#Average Expiration Date\n";
+	std::cout << "N/A\n";
+	std::cout << "#Quantity\n";
+	std::cout << ItemWeight;
 	/*
 		#Barcode#
 		01235137
