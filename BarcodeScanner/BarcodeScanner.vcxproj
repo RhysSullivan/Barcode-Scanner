@@ -20,7 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\BarcodeScanner.h" />
-    <ClInclude Include="Source\Components\IngredientsComponent.h" />
+    <ClInclude Include="Source\Components\ComponentManager.h" />
     <ClInclude Include="Source\HTMLUtils.h" />
     <ClInclude Include="Source\Item.h" />
     <ClInclude Include="Source\Recipe.h" />
@@ -29,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\BarcodeScanner.cpp" />
+    <ClCompile Include="Source\Components\ComponentManager.cpp" />
     <ClCompile Include="Source\HTMLUtils.cpp" />
     <ClCompile Include="Source\Item.cpp" />
     <ClCompile Include="Source\main.cpp" />

@@ -29,18 +29,3 @@ void AItem::Deserialize(const std::string& InSerializedFile)
 {
 	std::ifstream SerializedFileToRead(InSerializedFile);
 }
-
-
-
-/*
-	std::cout << "#Barcode\n";
-	std::cout << ItemBarcode << std::endl;
-	std::cout << "#Item Official Name\n";
-	std::cout << ItemOfficialName << std::endl;;
-	std::cout << "#Item Common Name\n";
-	std::cout << ItemCommonName << std::endl;;
-	std::cout << "#Average Expiration Date\n";
-	std::cout << "N/A\n";
-	std::cout << "#Quantity\n";
-	std::cout << "N/A\n";
-*/

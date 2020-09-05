@@ -71,7 +71,8 @@ bool HTMLUtils::ExtractTextFromFormatting(const std::string& Text, std::string& 
 	}
 
 	std::string TextSection = Text.substr(SectionStart, SectionEnd - SectionStart);
-
+	if (TextSection.size() < 1)
+		return false;
 	uint32_t OpenBrackets = 0;
 	uint32_t NumberOfContinuousSpaces = 0;
 	bool bStartWritingCharacters = false;
@@ -117,6 +118,10 @@ void HTMLUtils::ExtractTextKeepFormatting(std::string& InSection, std::string& O
 {
 	uint32_t SectionStartIndex = static_cast<uint32_t>(InSection.find(SectionStart));
 	uint32_t SectionEndIndex = static_cast<uint32_t>(InSection.find(SectionEnd, SectionStartIndex));
+	if (SectionStartIndex == std::string::npos || SectionEndIndex == std::string::npos)
+	{
+		return;
+	}
 	OutSection = InSection.substr(SectionStartIndex, SectionEndIndex - SectionStartIndex + SectionEnd.size());
 }
 

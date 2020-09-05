@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+*BarcodeScanner/HTMLSource
+*BarcodeScanner/Recipes
+
 # User-specific files
 *.rsuser
 *.suo
@@ -351,3 +354,4 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+*.html

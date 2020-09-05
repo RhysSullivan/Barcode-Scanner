@@ -1,17 +1,25 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
+
 
 #include "WebScrapper.h"
 #include "HTMLUtils.h"
 #include "BarcodeScanner.h"
 #include "RecipeParser.h"
+#include "Components/ComponentManager.h"
+
+AComponentManager* AComponentManager::instanceRef = 0;
 
 int main()
 {
 	AWebScrapper WebScrapper;
-	//WebScrapper.StartScrape();	
+	WebScrapper.StartScrape();	
 
-	std::cout << "==============================================\n";
+	AComponentManager& ComponentManager = AComponentManager::GetInstance();
+
+	return 0;
+
 	std::string Barcode = "076808516135";
 
 	ABarcodeScanner BarcodeScanner;
@@ -26,6 +34,4 @@ int main()
 		}
 		
 	}
-	ARecipeParser RecipeParser;
-	RecipeParser.ParseRecipeHTMLFile("HTMLSource/Recipes/tomato-puff-pastry-bites.html");
 }

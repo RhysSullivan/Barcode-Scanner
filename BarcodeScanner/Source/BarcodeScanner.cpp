@@ -56,7 +56,7 @@ bool ABarcodeScanner::ScanBarcode(const std::string& ItemBarcode)
 		}
 	}
 
-
+	/*
 	std::cout << "#Barcode\n";
 	std::cout << ItemBarcode << std::endl;
 	std::cout << "#Item Official Name\n";
@@ -67,17 +67,6 @@ bool ABarcodeScanner::ScanBarcode(const std::string& ItemBarcode)
 	std::cout << "N/A\n";
 	std::cout << "#Quantity\n";
 	std::cout << ItemWeight;
-	/*
-		#Barcode#
-		01235137
-		#Item Official Name#
-		Barilla Protein Plus Angel Hair Pasta 14.5 Ounce - 2 Pack
-		#Item Common Name#
-		Pasta
-		#Average Expiration date#
-		5 days
-		#Quantity#
-		2
 	*/
 	AItem ScannedBarcode(ItemBarcode, ItemCommonName, ItemOfficialName);
 	ScannedBarcode.Serialize();

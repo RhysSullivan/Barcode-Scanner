@@ -3,10 +3,10 @@
 #include <iostream>
 #include <cassert>
 #include <iomanip>
-
+#include <vector>
 #include "HTMLUtils.h"
 #include "WebScrapper.h"
-
+#include "Recipe.h"
 void ARecipeParser::ParseRecipeListHTMLPage(const std::string& FileName)
 {
 	std::string DownloadedFileStr;
@@ -44,6 +44,9 @@ void ARecipeParser::ParseRecipeHTMLFile(const std::string& FileName)
 	std::ifstream fin(FileName);
 	
 	std::string str((std::istreambuf_iterator<char>(fin)), std::istreambuf_iterator<char>());
+
+	if (str.size() < 1)
+		return;
 	/*
 	* Name
 	*/
@@ -52,7 +55,6 @@ void ARecipeParser::ParseRecipeHTMLFile(const std::string& FileName)
 	const std::string NameSectionEnd = "</h1>";
 	uint32_t NameOffset = 0;
 	HTMLUtils::ExtractTextFromFormatting(str, NameSection, NameSectionStart, NameSectionEnd, NameOffset);
-	std::cout << NameSection << '\n';
 	
 	/*
 	* Servings
@@ -62,7 +64,7 @@ void ARecipeParser::ParseRecipeHTMLFile(const std::string& FileName)
 	const std::string ServingsSectionEnd = "</div>";
 	uint32_t ServingsOffset = 0;
 	HTMLUtils::ExtractTextFromFormatting(str, ServingsSection, ServingsSectionStart, ServingsSectionEnd, ServingsOffset);
-	std::cout << ServingsSection << '\n';
+	
 
 	/*
 	* Time
@@ -72,7 +74,6 @@ void ARecipeParser::ParseRecipeHTMLFile(const std::string& FileName)
 	const std::string TimeSectionEnd = "</div>";
 	uint32_t TimeOffset = 0;
 	HTMLUtils::ExtractTextFromFormatting(str, TimeSection, TimeSectionStart, TimeSectionEnd, TimeOffset);
-	std::cout << TimeSection << '\n';
 
 	/*
 	* Type & Amount
@@ -89,15 +90,18 @@ void ARecipeParser::ParseRecipeHTMLFile(const std::string& FileName)
 	const std::string IngNameStartStr = "<span class=\"name\">";
 	const std::string IngNameEndStr = "</span>";
 	uint32_t Offset = 0;
+
+	std::vector<std::string> IngredientNames;
+
 	while (IngredientsSection.find(IngAmountStartStr, Offset) != std::string::npos)
 	{
 		std::string IngAmount;
-		assert(HTMLUtils::ExtractTextFromFormatting(IngredientsSection, IngAmount, IngAmountStartStr, IngAmountEndStr, Offset));
-
+		HTMLUtils::ExtractTextFromFormatting(IngredientsSection, IngAmount, IngAmountStartStr, IngAmountEndStr, Offset);
+		
 		std::string IngName;
 		HTMLUtils::ExtractTextFromFormatting(IngredientsSection, IngName, IngNameStartStr, IngNameEndStr, Offset);
-
-		std::cout << std::left << IngAmount  << std::setw(40) << std::right << IngName  << '\n';
+		IngredientNames.push_back(IngName);
 	}
-	std::cout << "\n\n\n";
+	ARecipe NewRecipe(NameSection, IngredientNames);
+	NewRecipe.Serialize();
 }
