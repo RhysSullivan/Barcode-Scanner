@@ -15,7 +15,7 @@ void AWebScrapper::StartScrape()
 {
 	std::string BigOvenSearchPage = "https://www.bigoven.com/recipes/search/page/";
 	std::string PageOutput = "HTMLSource/RecipePages/";
-	uint32_t EndPage = 7;//39842
+	uint32_t EndPage = 30;//39842
 
 	for (uint32_t PageIndex = 1; PageIndex < EndPage; PageIndex++)
 	{

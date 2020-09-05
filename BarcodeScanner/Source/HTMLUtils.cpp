@@ -56,6 +56,18 @@ bool HTMLUtils::ExtractTextFromFormatting(const std::string& Text, std::string& 
 	return true;
 }
 
+void RemoveSymbol(const std::string& Symbol, std::string& Output)
+{
+	int NamePartToRemove = Output.find(Symbol);
+	if (NamePartToRemove != std::string::npos)
+	{
+		std::string NewOutput = Output.substr(0, NamePartToRemove);
+		NewOutput += Output.substr(NamePartToRemove + Symbol.size());
+		Output = NewOutput;
+	}
+}
+
+
 bool HTMLUtils::ExtractTextFromFormatting(const std::string& Text, std::string& Output, const std::string& StartStr, const std::string& EndStr, uint32_t& Offset)
 {
 	if (Text.empty())
@@ -109,6 +121,8 @@ bool HTMLUtils::ExtractTextFromFormatting(const std::string& Text, std::string& 
 			}
 		}
 	}
+	RemoveSymbol("&amp;", Output);
+	RemoveSymbol("&#39;", Output);
 	Offset = SectionEnd;
 
 	return true;

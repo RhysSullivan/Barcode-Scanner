@@ -4,6 +4,8 @@
 #include <cassert>
 #include <iomanip>
 #include <vector>
+#include <filesystem>
+
 #include "HTMLUtils.h"
 #include "WebScrapper.h"
 #include "Recipe.h"
@@ -34,19 +36,22 @@ void ARecipeParser::ParseRecipeListHTMLPage(const std::string& FileName)
 			AWebScrapper WebScrapper;
 			WebScrapper.DownloadSite(OutRecipeFileName, OutRecipeURL);
 
-			ParseRecipeHTMLFile(OutRecipeFileName);
+			ParseRecipeHTMLFile(OutRecipeFileName, OutRecipeURL);
 		}
 	}
 }
 
-void ARecipeParser::ParseRecipeHTMLFile(const std::string& FileName)
+void ARecipeParser::ParseRecipeHTMLFile(const std::string& FileName, const std::string& LinkToRecipe)
 {
 	std::ifstream fin(FileName);
-	
+
 	std::string str((std::istreambuf_iterator<char>(fin)), std::istreambuf_iterator<char>());
 
 	if (str.size() < 1)
+	{
+		std::cout << "Error parsing: " << FileName << '\n';
 		return;
+	}
 	/*
 	* Name
 	*/
@@ -55,7 +60,7 @@ void ARecipeParser::ParseRecipeHTMLFile(const std::string& FileName)
 	const std::string NameSectionEnd = "</h1>";
 	uint32_t NameOffset = 0;
 	HTMLUtils::ExtractTextFromFormatting(str, NameSection, NameSectionStart, NameSectionEnd, NameOffset);
-	
+
 	/*
 	* Servings
 	*/
@@ -102,6 +107,16 @@ void ARecipeParser::ParseRecipeHTMLFile(const std::string& FileName)
 		HTMLUtils::ExtractTextFromFormatting(IngredientsSection, IngName, IngNameStartStr, IngNameEndStr, Offset);
 		IngredientNames.push_back(IngName);
 	}
-	ARecipe NewRecipe(NameSection, IngredientNames);
+	ARecipe NewRecipe(NameSection, IngredientNames, LinkToRecipe);
 	NewRecipe.Serialize();
+}
+
+void ARecipeParser::ParseRecipeDirectory(const std::string& Directory)
+{
+	for (const auto& entry : std::filesystem::directory_iterator(Directory))
+	{
+		std::string FileName = entry.path().generic_string();
+		ARecipe NewRecipe(FileName);
+		std::cout << NewRecipe << "\n\n\n\n\n\n";
+	}
 }

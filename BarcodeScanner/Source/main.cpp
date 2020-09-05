@@ -16,6 +16,10 @@ int main()
 	AWebScrapper WebScrapper;
 	WebScrapper.StartScrape();	
 
+	ARecipeParser RecipeParser;
+	//RecipeParser.ParseRecipeDirectory("Recipes/");
+
+
 	AComponentManager& ComponentManager = AComponentManager::GetInstance();
 
 	return 0;
