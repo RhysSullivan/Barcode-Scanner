@@ -1,31 +1,42 @@
-#include <iostream>
-#include <fstream>
-#include <vector>
-
-
 #include "WebScrapper.h"
 #include "HTMLUtils.h"
 #include "BarcodeScanner.h"
 #include "RecipeParser.h"
 #include "Components/ComponentManager.h"
+AComponentManager* AComponentManager::instanceRef = 0;
+#include <iostream>
+#include <fstream>
+#include <vector>
+
+#include "Networking/Server/Server.h"
+#include "Networking/Client/Client.h"
+
+#define SERVER
+
+int main() 
+{
+#ifdef SERVER
+	Server();
+#else
+	Client();
+#endif
+}
+
+/*
+
 
 AComponentManager* AComponentManager::instanceRef = 0;
 
 int main()
 {
 	AWebScrapper WebScrapper;
-	WebScrapper.StartScrape();	
+	//WebScrapper.StartScrape();	
 
 	ARecipeParser RecipeParser;
-	//RecipeParser.ParseRecipeDirectory("Recipes/");
+	RecipeParser.ParseRecipeDirectory("Recipes/");
+	
 
-
-	AComponentManager& ComponentManager = AComponentManager::GetInstance();
-
-	return 0;
-
-	std::string Barcode = "076808516135";
-
+	AComponentManager& a = AComponentManager::GetInstance();
 	ABarcodeScanner BarcodeScanner;
 	while (true)
 	{
@@ -38,4 +49,4 @@ int main()
 		}
 		
 	}
-}
+}*/
