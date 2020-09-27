@@ -109,6 +109,7 @@ void ARecipeParser::ParseRecipeHTMLFile(const std::string& FileName, const std::
 	}
 	ARecipe NewRecipe(NameSection, IngredientNames, LinkToRecipe);
 	NewRecipe.Serialize();
+	std::cout << NewRecipe << "\n\n\n\n\n\n=============================\n";
 }
 
 void ARecipeParser::ParseRecipeDirectory(const std::string& Directory)

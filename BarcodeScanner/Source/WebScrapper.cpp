@@ -26,10 +26,6 @@ void AWebScrapper::StartScrape()
 		ARecipeParser RecipeParser;
 		RecipeParser.ParseRecipeListHTMLPage(OutPageFileName);
 	}
-	
-	
-	//ARecipeParser RecipeParser;
-	//RecipeParser.ParseHTMLFile(OutFileName.c_str());
 }
 
 void AWebScrapper::DownloadSite(std::string& OutFileName, const std::string& URL)

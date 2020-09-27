@@ -5,7 +5,7 @@
 #include <string>
 #include <iostream>
 
-enum class EParseState
+enum class ERecipeParseState
 {
 	E_NAME,
 	E_INGREDIENTS,

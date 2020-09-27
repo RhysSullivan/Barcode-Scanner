@@ -1,11 +1,46 @@
 #include <iostream>
 #include <fstream>
+#include <filesystem>
 
 #include "BarcodeScanner.h"
 #include "WebScrapper.h"
 #include "HTMLUtils.h"
 #include "Item.h"
+
+ABarcodeScanner::ABarcodeScanner()
+{
+	for (const auto& entry : std::filesystem::directory_iterator("Items/"))
+	{
+		std::string FileName = entry.path().generic_string();
+		Items.push_back(AItem(FileName));
+	}
+}
+
 bool ABarcodeScanner::ScanBarcode(const std::string& ItemBarcode)
+{
+	bool bFoundMatchingBarcodeInItems = false;
+	for (auto& a : Items)
+	{
+		if (a.GetBarcode() == ItemBarcode)
+		{
+			bFoundMatchingBarcodeInItems = true;
+			a.AddOneUnit();
+			a.Serialize();
+			std::cout << "Duplicate Entered\n";
+		}
+	}
+	if (!bFoundMatchingBarcodeInItems)
+	{
+		ConstructObjectFromScannedBarcode(ItemBarcode);
+	}
+	return false;
+}
+
+
+/*
+This should only ever be called when a Barcode is scanned for the first time.
+*/
+void ABarcodeScanner::ConstructObjectFromScannedBarcode(const std::string& ItemBarcode)
 {
 	std::string UPCSiteURL = "https://www.upcdatabase.com/item/";
 	std::string OutFile = "HTMLSource/UPCSource/";
@@ -22,7 +57,7 @@ bool ABarcodeScanner::ScanBarcode(const std::string& ItemBarcode)
 
 	if (str.find("Item Not Found") != std::string::npos)
 	{
-		return false;
+		return;
 	}
 
 
@@ -55,7 +90,8 @@ bool ABarcodeScanner::ScanBarcode(const std::string& ItemBarcode)
 			ItemCommonName = CommonNameLine;
 		}
 	}
-	AItem ScannedBarcode(ItemBarcode, ItemCommonName, ItemOfficialName);
-	ScannedBarcode.Serialize();
-	return false;
+	AItem NewItem = AItem(ItemBarcode, ItemCommonName, ItemOfficialName);
+	NewItem.AddOneUnit();
+	Items.push_back(NewItem);
+	NewItem.Serialize();
 }

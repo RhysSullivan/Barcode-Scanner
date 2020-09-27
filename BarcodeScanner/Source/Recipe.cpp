@@ -27,7 +27,7 @@ void ARecipe::Deserialize(const std::string& FileName)
 
 	if (RecipeFile.is_open())
 	{
-		EParseState ParseState = EParseState::E_INVALID;
+		ERecipeParseState ParseState = ERecipeParseState::E_INVALID;
 		std::string Line;
 		std::vector<std::string> TEMP_Ingredients;
 		while (std::getline(RecipeFile, Line))
@@ -38,32 +38,32 @@ void ARecipe::Deserialize(const std::string& FileName)
 			}
 			else if (Line == "#NAME#")
 			{
-				ParseState = EParseState::E_NAME;
+				ParseState = ERecipeParseState::E_NAME;
 			}
 			else if (Line == "#INGREDIENTS#")
 			{
-				ParseState = EParseState::E_INGREDIENTS;
+				ParseState = ERecipeParseState::E_INGREDIENTS;
 			}
 			else if (Line == "#LINK#")
 			{
-				ParseState = EParseState::E_LINK;
+				ParseState = ERecipeParseState::E_LINK;
 			}
 			else
 			{
 				switch (ParseState)
 				{
-				case EParseState::E_NAME:
+				case ERecipeParseState::E_NAME:
 					Name = Line;
 					break;
-				case EParseState::E_INGREDIENTS:
+				case ERecipeParseState::E_INGREDIENTS:
 					TEMP_Ingredients.push_back(Line);
 					break;
-				case EParseState::E_LINK:
+				case ERecipeParseState::E_LINK:
 					LinkToRecipe = Line;
 					break;
-				case EParseState::E_TIME:
+				case ERecipeParseState::E_TIME:
 					break;
-				case EParseState::E_INVALID:
+				case ERecipeParseState::E_INVALID:
 					break;
 				default:
 					break;
